@@ -1,13 +1,15 @@
 package com.example.EduCloud.controller;
 
-import com.example.EduCloud.service.MathService; // Správny import
-
+import com.example.EduCloud.model.MathProblem;
+import com.example.EduCloud.model.ResultResponse;
+import com.example.EduCloud.model.UserAnswer;
+import com.example.EduCloud.service.MathService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/math")
+@RequestMapping("/api/math")
 public class MathController {
 
     private final MathService mathService;
@@ -16,21 +18,24 @@ public class MathController {
         this.mathService = mathService;
     }
 
-    // Endpoint na generovanie 10 príkladov
     @GetMapping("/generate")
-    public List<String> generateProblems() {
+    public List<MathProblem> generateProblems() {
         return mathService.generateProblems();
     }
 
-    // Endpoint na vyhodnotenie odpovede
-    @PostMapping("/evaluate")
-    public String evaluateAnswer(@RequestParam String problem, @RequestParam int answer) {
-        return mathService.evaluateAnswer(problem, answer);
-    }
+    @PostMapping("/submit")
+    public ResultResponse submitAnswers(@RequestBody List<UserAnswer> answers) {
+        int correctCount = 0;
+        long totalTime = 0;
 
-    // Endpoint na zobrazenie štatistík
-    @GetMapping("/statistics")
-    public String getStatistics() {
-        return mathService.getStatistics();
+        for (UserAnswer answer : answers) {
+            if (answer.isCorrect()) {
+                correctCount++;
+            } else {
+                totalTime += 60000; // pridá 1 minútu za nesprávnu odpoveď
+            }
+        }
+
+        return new ResultResponse(correctCount, totalTime);
     }
 }

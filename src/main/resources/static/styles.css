@@ -1,0 +1,93 @@
+ /* Reset základného štýlu */
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+ }
+
+ body {
+   font-family: Arial, sans-serif;
+   background-color: #f4f4f9;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   margin: 0;
+ }
+
+ .container {
+   width: 100%;
+   max-width: 600px;
+   background-color: white;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+
+ .header {
+   text-align: center;
+   margin-bottom: 20px;
+ }
+
+ h1 {
+   color: #333;
+   font-size: 2rem;
+ }
+
+ .problem-container {
+   margin: 20px 0;
+   text-align: center;
+ }
+
+ .problem {
+   font-size: 1.5rem;
+   font-weight: bold;
+   margin-bottom: 20px;
+ }
+
+ .answer-input {
+   font-size: 1.2rem;
+   padding: 10px;
+   width: 80%;
+   border: 2px solid #ccc;
+   border-radius: 5px;
+   margin-bottom: 10px;
+ }
+
+ .submit-btn {
+   padding: 10px 20px;
+   background-color: #4caf50;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 1.2rem;
+ }
+
+ .submit-btn:hover {
+   background-color: #45a049;
+ }
+
+ .feedback {
+   text-align: center;
+   margin-top: 20px;
+   font-size: 1.2rem;
+ }
+
+ .correct {
+   color: green;
+ }
+
+ .incorrect {
+   color: red;
+ }
+
+ .statistics {
+   margin-top: 30px;
+   text-align: center;
+ }
+
+ .statistics p {
+   font-size: 1.2rem;
+   margin: 5px 0;
+ }
