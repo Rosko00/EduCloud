@@ -1,0 +1,23 @@
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .problem {
+            font-size: 2em;
+            margin: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+    </style>

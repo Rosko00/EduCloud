@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matematika</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      text-align: center;
+    }
+    #problems {
+      margin-top: 50px;
+    }
+    .problem {
+      font-size: 1.5rem;
+      margin: 20px;
+    }
+    #result {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      color: green;
+    }
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 10px;
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin-top: 30px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<h1>Hanička a Maroško</h1>
+<div id="problems"></div>
+<div id="result"></div>
+<button id="submitAnswer">Odoslať odpoveď</button>
+<button id="newProblem">Nový súbor príkladov</button>
+<div id="statistics"></div>
+
+<script>
+  let problems = [];
+  let currentProblemIndex = 0;
+  let answers = [];
+
+  // Načítať 10 príkladov
+  function loadProblems() {
+    fetch('http://localhost:8080/math/generate')
+      .then(response => response.json())
+      .then(data => {
+        problems = data;
+        currentProblemIndex = 0;
+        answers = [];
+        displayProblem();
+      })
+      .catch(error => console.error('Chyba:', error));
+  }
+
+  // Zobraziť aktuálny príklad
+  function displayProblem() {
+    if (currentProblemIndex < problems.length) {
+      document.getElementById('problems').innerHTML = `
+        <div class="problem">${problems[currentProblemIndex]}</div>
+        <input type="number" id="answer" placeholder="Napíšte odpoveď">
+      `;
+    }
+  }
+
+  // Vyhodnotenie odpovede
+  function evaluateAnswer() {
+    const answer = document.getElementById('answer').value;
+    if (answer === '') {
+      alert('Prosím, zadajte odpoveď.');
+      return;
+    }
+
+    fetch(`http://localhost:8080/math/evaluate?problem=${encodeURIComponent(problems[currentProblemIndex])}&answer=${answer}`, {
+      method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+      answers.push(data);
+      currentProblemIndex++;
+      if (currentProblemIndex < problems.length) {
+        displayProblem();
+      } else {
+        showStatistics();
+      }
+    })
+    .catch(error => console.error('Chyba:', error));
+  }
+
+  // Zobraziť štatistiky
+  function showStatistics() {
+    fetch('http://localhost:8080/math/statistics')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('statistics').textContent = data;
+      })
+      .catch(error => console.error('Chyba:', error));
+  }
+
+  // Event listener na odoslanie odpovede
+  document.getElementById('submitAnswer').addEventListener('click', evaluateAnswer);
+
+  // Event listener na nový súbor príkladov
+  document.getElementById('newProblem').addEventListener('click', loadProblems);
+
+  // Po spustení načítať prvý súbor príkladov
+  loadProblems();
+</script>
+</body>
+</html>
