@@ -15,8 +15,8 @@ public class MathService {
         Random random = new Random();
 
         for (int i = 0; i < 10; i++) {
-            int operand1 = random.nextInt(10);
-            int operand2 = random.nextInt(10);
+            int operand1 = random.nextInt(30);
+            int operand2 = random.nextInt(30);
             String operator = random.nextBoolean() ? "+" : "-";
             int answer = operator.equals("+") ? operand1 + operand2 : operand1 - operand2;
 
