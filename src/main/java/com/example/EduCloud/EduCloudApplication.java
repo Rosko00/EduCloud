@@ -9,3 +9,4 @@ public class EduCloudApplication {
 		SpringApplication.run(EduCloudApplication.class, args);
 	}
 }
+
